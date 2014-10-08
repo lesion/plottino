@@ -79,7 +79,7 @@ class Producer(QThread):
       items+=1
       rnd = random.randint(self.from_rnd,self.to_rnd) + self.y_offset
       dt = datetime.now() - start_time
-      if items>1000:
+      if items>100:
         del self.data[0][0]
         del self.data[1][0]
         self.min_x = self.data[0][0]

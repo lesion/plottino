@@ -107,12 +107,12 @@ class Plottino(QMainWindow):
         # create a new graph for this producer and attach to the plot
         new_curve = Qwt.QwtPlotCurve('')
         self.curves.append( new_curve )
-        new_curve.setRenderHint(Qwt.QwtPlotItem.RenderAntialiased)
+        #new_curve.setRenderHint(Qwt.QwtPlotItem.RenderAntialiased)
         new_curve.setCurveType( Qwt.QwtPlotCurve.Yfx )
         new_curve.setYAxis( Qwt.QwtPlot.yLeft )
         pen = QPen(QColor(len(self.curves)*50,100,200))
-        new_curve.setCurveFitter( Qwt.QwtSplineCurveFitter() )
-        pen.setWidth(2)
+        #new_curve.setCurveFitter( Qwt.QwtSplineCurveFitter() )
+        pen.setWidth(1)
         new_curve.setPen(pen)
         new_curve.attach(self.plot)
 
@@ -185,6 +185,7 @@ class Plottino(QMainWindow):
         self.start_button.setIcon(QIcon.fromTheme("media-playback-pause"))
         #start threads
         for t in self.used_producers:
+            print "Start thread " , t
             t.init()
             t.start()
 
@@ -202,8 +203,8 @@ class Plottino(QMainWindow):
                 min_x = t.min_x if min_x==None or min_x>t.min_x else min_x
                 max_x = t.max_x if max_x<t.max_x else max_x
 
-            self.curves[i].setData(t.data[0], t.data[1])
-            i+=1
+                self.curves[i].setData(t.data[0], t.data[1])
+                i+=1
 
             self.plot.setAxisScale(Qwt.QwtPlot.xBottom, min_x, max_x )
             self.plot.replot()

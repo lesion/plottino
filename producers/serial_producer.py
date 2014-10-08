@@ -72,7 +72,10 @@ class Producer(QThread):
         QThread.msleep(100)
 
       items+=1
-      data = int(self.serial.readline())
+      try:
+        data = int(self.serial.readline())
+      except:
+        continue
       dt = datetime.now() - start_time
       if items>100:
         del self.data[0][0]
