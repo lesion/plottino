@@ -55,6 +55,7 @@ class Producer(QThread):
         self.serial = Serial(self.port,self.baud)
         return True
       except Exception as e:
+        print e.value
         return e.value
 
 
@@ -71,7 +72,7 @@ class Producer(QThread):
         QThread.msleep(100)
 
       items+=1
-      data = int(self.serial.readline()) #random.randint(self.from_rnd,self.to_rnd) + self.y_offset
+      data = int(self.serial.readline())
       dt = datetime.now() - start_time
       if items>100:
         del self.data[0][0]
@@ -80,6 +81,5 @@ class Producer(QThread):
 
       ms = (dt.days * 24 * 60 * 60 + dt.seconds) * 1000 + dt.microseconds / 1000.0
       self.max_x = ms if ms>self.max_x else self.max_x
-
       self.data[0].append(ms)
       self.data[1].append(data)

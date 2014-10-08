@@ -107,19 +107,19 @@ class Plottino(QMainWindow):
         # create a new graph for this producer and attach to the plot
         new_curve = Qwt.QwtPlotCurve('')
         self.curves.append( new_curve )
-        #new_curve.setRenderHint(Qwt.QwtPlotItem.RenderAntialiased)
+        new_curve.setRenderHint(Qwt.QwtPlotItem.RenderAntialiased)
         new_curve.setCurveType( Qwt.QwtPlotCurve.Yfx )
         new_curve.setYAxis( Qwt.QwtPlot.yLeft )
-        pen = QPen(QColor(len(self.curves)*70,100,200))
+        pen = QPen(QColor(len(self.curves)*50,100,200))
         new_curve.setCurveFitter( Qwt.QwtSplineCurveFitter() )
-        pen.setWidth(1)
+        pen.setWidth(2)
         new_curve.setPen(pen)
         new_curve.attach(self.plot)
 
         #new_curve.setCurveAttribute(Qwt.QwtPlotCurve.Fitted,True);
         new_curve.setStyle( Qwt.QwtPlotCurve.Lines )
-        #fit = Qwt.QwtSplineCurveFitter()
-        #fit.setSplineSize( 15 )
+        #fit = Qwt.QwtWeedingCurveFitter(1)
+        #fit.setSplineSize( 120 )
         #new_curve.setCurveFitter( fit );
 
     def removeProducer(self):
@@ -129,13 +129,13 @@ class Plottino(QMainWindow):
         controls = QWidget()
         layout = QHBoxLayout()
 
-        start_button = QPushButton( QIcon.fromTheme( 'start' ), "Start" )
-        start_button.setCheckable( True )
-        start_button.clicked.connect(self.start)
-        layout.addWidget( start_button )
+        self.start_button = QPushButton( QIcon.fromTheme( 'media-playback-start' ), "Start" )
+        self.start_button.setCheckable( True )
+        self.start_button.clicked.connect(self.start)
+        layout.addWidget( self.start_button )
 
 
-        screenshoot = QPushButton( QIcon.fromTheme( 'screenshoot' ), "Screenshoot" )
+        screenshoot = QPushButton( QIcon.fromTheme( 'camera-photo' ), "Screenshoot" )
         self.connect( screenshoot, SIGNAL("clicked()"), self.screenshoot )
         layout.addWidget( screenshoot )
 
@@ -173,13 +173,16 @@ class Plottino(QMainWindow):
             for t in self.used_producers:
               t.pause=True
             self.pause=True
+            self.start_button.setIcon(QIcon.fromTheme("media-playback-start"))
             return
         elif self.pause==True:
             for t in self.used_producers:
               t.pause=False
             self.pause=False
+            self.start_button.setIcon(QIcon.fromTheme("media-playback-pause"))
             return
 
+        self.start_button.setIcon(QIcon.fromTheme("media-playback-pause"))
         #start threads
         for t in self.used_producers:
             t.init()
