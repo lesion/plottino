@@ -11,7 +11,7 @@ It's just started so i'm currently testing module structure.
 
 ## Screenshoot
 
-An example of plotting data from an arduino running [enlight](https:/github.com/lesion/enlight)
+An example of plotting data from an arduino running [enlight](https::/github.com/lesion/enlight)
 ![Serial](img/serial.png)
 
 
